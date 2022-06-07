@@ -2,6 +2,8 @@ package com.cursos.minhasfinancas.model.entity;
 
 import com.cursos.minhasfinancas.model.enums.StatusLancamento;
 import com.cursos.minhasfinancas.model.enums.TipoLancamento;
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import javax.persistence.*;
@@ -11,6 +13,11 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "lancamento", schema = "financas")
+@Getter
+@Setter
+@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
 public class Lancamento {
 
     @Id
@@ -119,19 +126,6 @@ public class Lancamento {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Lancamento that = (Lancamento) o;
-        return Objects.equals(id, that.id) && Objects.equals(descricao, that.descricao) && Objects.equals(mes, that.mes) && Objects.equals(ano, that.ano) && Objects.equals(usuario, that.usuario) && Objects.equals(valor, that.valor) && Objects.equals(dtCadastro, that.dtCadastro) && tipo == that.tipo && statusLancamento == that.statusLancamento;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, descricao, mes, ano, usuario, valor, dtCadastro, tipo, statusLancamento);
-    }
-
-    @Override
     public String toString() {
         return "Lancamento{" +
                 "id=" + id +
@@ -144,5 +138,18 @@ public class Lancamento {
                 ", tipo=" + tipo +
                 ", statusLancamento=" + statusLancamento +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Lancamento that = (Lancamento) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
